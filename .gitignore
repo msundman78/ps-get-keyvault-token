@@ -1,4 +1,2 @@
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
+/src/dotnet/[Bb]in/
+/src/dotnet/[Oo]bj/

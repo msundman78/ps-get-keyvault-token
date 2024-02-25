@@ -4,7 +4,7 @@ using Azure.Identity;
 using Microsoft.Identity.Client;
 using Smartersoft.Identity.Client.Assertion;
 
-namespace ITTotal.PowerShell.Azure.Commands
+namespace ITTotal.Azure.KeyVaultToken.Commands
 {
     [Cmdlet(VerbsCommon.Get,"KeyVaultToken")]
     [OutputType(typeof(AuthenticationResult))]
