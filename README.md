@@ -1,3 +1,11 @@
+### Overview
+
+This PS module uses the [Smartersoft.Identity.Client.Assertion](https://github.com/Smartersoft/identity-client-assertion/) library to perform an OIDC authentication with Client Credentials flow using a certificate in Azure Key Vault to sign the JWT auth token and returns the AccessToken to be used with other standard PowerShell modules like Connect-MgGraph or Connect-AzAccount.
+
+All creds for this project goes to Stephan van Rooij for creating the [Smartersoft.Identity.Client.Assertion](https://github.com/Smartersoft/identity-client-assertion/) library.
+
+
+
 ### Initial addition of packages:
 ```
 dotnet add package Smartersoft.Identity.Client.Assertion
