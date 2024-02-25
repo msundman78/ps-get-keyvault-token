@@ -4,26 +4,17 @@ This PS module uses the [Smartersoft.Identity.Client.Assertion](https://github.c
 
 All creds for this project goes to Stephan van Rooij for creating the [Smartersoft.Identity.Client.Assertion](https://github.com/Smartersoft/identity-client-assertion/) library.
 
+### Create certificate in Azure Key Vault
+For an example how to create a certificate with a non-exportable key
+in Azure Key Vault to be used with this module see: [create-keyvault-cert.ps1](create-keyvault-cert.ps1)
 
-
-### Initial addition of packages:
+### Usage:
 ```
-dotnet add package Smartersoft.Identity.Client.Assertion
-dotnet add package Microsoft.Identity.Client
-dotnet build
-```
-
-### Load module and check available commands:
-```
-Import-Module ./bin/Debug/net6.0/GetKeyVaultToken
-Get-Command -Module GetKeyVaultToken
-```
-
-### Test run:
-```
+Import-Module Get-KeyVaultToken
 $authResponse = Get-KeyVaultToken `
     -ClientId "70e9ae2c-d00b-4581-9a31-b71c2a0ec38e" `
     -TenantId "ffb9e08b-6f50-443c-8fe8-48aed2dc3204" `
+    -Scope "https://graph.microsoft.com/.default" `
     -KeyVaultUri "https://sundmankv1.vault.azure.net/" `
     -CertificateName "cert2"
 $secureAccessToken = $authResponse.AccessToken | ConvertTo-SecureString -AsPlainText -Force
