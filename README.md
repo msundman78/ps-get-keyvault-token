@@ -21,9 +21,11 @@ Get-Command -Module GetKeyVaultToken
 
 ### Test run:
 ```
-Get-KeyVaultToken `
+$authResponse = Get-KeyVaultToken `
     -ClientId "70e9ae2c-d00b-4581-9a31-b71c2a0ec38e" `
     -TenantId "ffb9e08b-6f50-443c-8fe8-48aed2dc3204" `
     -KeyVaultUri "https://sundmankv1.vault.azure.net/" `
     -CertificateName "cert2"
+$secureAccessToken = $authResponse.AccessToken | ConvertTo-SecureString -AsPlainText -Force
+Connect-MgGraph -AccessToken $secureAccessToken
 ```

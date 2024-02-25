@@ -8,36 +8,27 @@ using Azure.Identity;
 using Microsoft.Identity.Client;
 using Smartersoft.Identity.Client.Assertion;
 
-namespace GetKeyVaultToken
+namespace ITTotal.PowerShell.Azure.Commands
 {
     [Cmdlet(VerbsCommon.Get,"KeyVaultToken")]
-    [OutputType(typeof(String))]
-    public class TestSampleCmdletCommand : PSCmdlet
+    [OutputType(typeof(AuthenticationResult))]
+    public class GetKeyVaultTokenCommand : PSCmdlet
     {
         [Parameter(Mandatory = true)] public string ClientId { get; set; }
         [Parameter(Mandatory = true)] public string TenantId { get; set; }
         [Parameter(Mandatory = true)] public string KeyVaultUri { get; set; }
         [Parameter(Mandatory = true)] public string CertificateName { get; set; }
-
-        // This method gets called once for each cmdlet in the pipeline when the pipeline starts executing
-        protected override void BeginProcessing()
-        {
-        }
+        [Parameter(Mandatory = false)] public string Scope { get; set; } = "https://graph.microsoft.com/.default";
 
         // This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
         protected override void ProcessRecord()
         {
             // Synchronously calling the asynchronous method and waiting for its completion
-            string accessToken = GetTokenAsync().GetAwaiter().GetResult();
-            WriteObject(accessToken);
+            AuthenticationResult authResult = GetTokenAsync().GetAwaiter().GetResult();
+            WriteObject(authResult);
         }
 
-        // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
-        protected override void EndProcessing()
-        {
-        }
-
-        private async Task<string> GetTokenAsync()
+        private async Task<AuthenticationResult> GetTokenAsync()
         {
             // Create a token credential that suits your needs, used to access the KeyVault
             var tokenCredential = new DefaultAzureCredential();
@@ -50,11 +41,10 @@ namespace GetKeyVaultToken
                 .WithKeyVaultCertificate(new Uri(KeyVaultUri), CertificateName, tokenCredential)
                 .Build();
 
-            // Use the app, just like before
-            var tokenResult = await app.AcquireTokenForClient(new[] { "https://graph.microsoft.com/.default" })
+            var authResult = await app.AcquireTokenForClient(new[] { Scope })
                 .ExecuteAsync();
 
-            return tokenResult.AccessToken;
+            return authResult;
         }
     }
 }
